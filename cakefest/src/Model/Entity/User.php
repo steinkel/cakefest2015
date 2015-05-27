@@ -26,7 +26,8 @@ class User extends Entity
         'questions' => true,
     ];
 
-    protected function _getFullName() {
+    protected function _getFullName() 
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
 }

@@ -41,7 +41,7 @@ class QuestionsTable extends Table
             'targetForeignKey' => 'tag_id',
             'joinTable' => 'questions_tags'
         ]);
-	$this->addBehavior('NotifyOwner');
+	$this->addBehavior('NotifyOwner', ['log' => true]);
     }
 
     /**

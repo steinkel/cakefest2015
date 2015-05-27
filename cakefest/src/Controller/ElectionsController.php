@@ -102,4 +102,17 @@ class ElectionsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+
+    public function containableExample2($id) {
+        debug($this->Elections->find()
+            ->contain(['Questions.Answers' => [
+                'conditions' => ['answer' => true]
+                ]])
+            ->where(['Elections.id' => $id])
+            ->hydrate(false)
+            ->toArray()
+        );
+        $this->render(false);
+    }
 }

@@ -129,4 +129,15 @@ class QuestionsController extends AppController
 
         $this->render(false);
     }
+
+    public function downloadErrorLog() {
+        $this->response->file(
+            LOGS . 'error.log', [
+                'download' => true,
+                'name' => __("error{0}.log", date('YmdHis'))
+            ]
+        );
+        $this->response->disableCache();
+        return $this->response;
+    }    
 }

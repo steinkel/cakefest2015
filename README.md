@@ -25,4 +25,4 @@ cakefest2014
 * point your browser to http://localhost:8080
 
 ###Database schema
-* 
+* https://raw.githubusercontent.com/steinkel/cakefest2015/master/database.sql 

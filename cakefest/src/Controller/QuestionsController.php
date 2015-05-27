@@ -111,4 +111,22 @@ class QuestionsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    public function saveExamples1()
+    {
+        $question = $this->Questions->newEntity([]); // O_O
+        $question->title = 'This is a new question';
+        debug($question->errors());
+        debug($this->Questions->save($question));
+
+        $question2 = $this->Questions->newEntity([
+		    'title' => 'This is another question',
+		    'user_id' => 2,
+		    'election_id' => 'non-existing-election',
+	        ]);
+        debug($this->Questions->save($question2));
+        debug($question2->errors());
+
+        $this->render(false);
+    }
 }

@@ -34,6 +34,12 @@ class UsersTable extends Table
         $this->hasMany('Questions', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('ShortTitleQuestions', [
+            'className' => 'Questions',
+            'foreignKey' => 'user_id',
+            'conditions' => ['CHAR_LENGTH(ShortTitleQuestions.title) <' => 20]
+        ]);
+
     }
 
     /**
@@ -61,12 +67,20 @@ class UsersTable extends Table
             
         $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
-            
+            ->notEmpty('password')
+	    ->add('password', 'minLength', [
+                'rule' => ['minLength', 4],
+                'message' => 'Passwords should have at least 4 characters'
+                ]);
+
         $validator
             ->add('role', 'valid', ['rule' => 'numeric'])
             ->requirePresence('role', 'create')
-            ->notEmpty('role');
+            ->notEmpty('role')
+            ->add('role', 'valid', [
+                'rule' => ['inList', [0,1]],
+                'message' => 'Role should be 0 (User) or 1 (Admin)'
+                ]);
 
         return $validator;
     }

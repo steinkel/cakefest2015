@@ -6,6 +6,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Network\Email\Email;
+use Cake\Routing\Router;
+use Cake\Error\Debugger;
 
 /**
  * Answers Model
@@ -66,5 +69,19 @@ class AnswersTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['question_id'], 'Questions'));
         return $rules;
+    }
+
+    public function afterSave(Event $event, Answer $entity, $options)
+    {
+        $email = new Email('default');
+        $result = $email->from('noreply@factionquestions.org')
+            ->to('admin@factionquestions.org')
+            ->subject(__('New answer!!'))
+            ->send(__("Check the new answer here {0}", Router::url([
+                'controller' => 'answers',
+                'action' => 'view',
+                $entity->id,
+         ], true)));
+         Debugger::log($result);
     }
 }

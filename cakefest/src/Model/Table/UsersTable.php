@@ -82,6 +82,20 @@ class UsersTable extends Table
                 'message' => 'Role should be 0 (User) or 1 (Admin)'
                 ]);
 
+        $validator
+            ->add('password', 'anotherPasswordValidation', [
+                'rule' => function ($value, $context) {
+                    //do complex validation on password
+                    return true;
+                }
+                ])
+            ->add('password', 'strongerPasswordForAdmins', [
+                'rule' => ['minLength', 8],
+                'message' => 'Admins should have passwords at least 8 chars',
+                'on' => function ($context) {
+                    return (int)$context['data']['role'] === 1;
+                }
+                ]);
         return $validator;
     }
 

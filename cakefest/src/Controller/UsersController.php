@@ -107,4 +107,16 @@ class UsersController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    public function queryExamples()
+    {
+        debug($this->Users->find()
+		->select(['Users.id', 'Users.email'])
+		->where(['Users.role' => 1])
+		->order(['Users.email' => 'asc'])
+		->limit(10)
+		//->toArray()
+        );
+        $this->render(false);
+    }
 }

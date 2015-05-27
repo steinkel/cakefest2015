@@ -1,4 +1,4 @@
-cakefest2014
+cakefest2015
 ============
 
 ###Setting up a minimal development environment

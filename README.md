@@ -21,7 +21,7 @@ cakefest2015
 * Setup port forwarding in Vagrantfile: `config.vm.network :forwarded_port, guest: 8080, host: 8080`
 * vagrant up && vagrant ssh
 * curl -L https://gist.githubusercontent.com/steinkel/ad4101bbef37ac537001/raw/b0b3f821ba1831216374102ff4d820f12a0fc48c/init.sh |bash
-* start CakePHP server using bin/cake server -p 8080 
+* start CakePHP server using bin/cake server -p 8080 -H 0.0.0.0
 * point your browser to http://localhost:8080
 
 ###Database schema

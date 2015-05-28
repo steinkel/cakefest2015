@@ -11,6 +11,16 @@ use App\Controller\AppController;
 class QuestionsController extends AppController
 {
 
+    public function home()
+    {
+        $questions = $this->Questions->find()
+            ->limit(10)
+            ->contain(['Answers.Users'])
+            ->order(['Questions.created' => 'desc'])
+            ->all();
+        $this->set(compact('questions'));
+    }
+
     /**
      * Index method
      *

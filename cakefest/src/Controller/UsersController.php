@@ -2,12 +2,15 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\UsersTable;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Users Controller
  *
- * @property \App\Model\Table\UsersTable $Users
+ * @property UsersTable $Users
  */
 class UsersController extends AppController
 {
@@ -28,6 +31,8 @@ class UsersController extends AppController
                 return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Invalid username or password, try again'));
+            $event = new Event('Auth.loginFailed', $this, ['ip' => $this->request->clientIp()]);
+            EventManager::instance()->dispatch($event);
         }
     }
 
@@ -55,7 +60,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -93,7 +98,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -119,7 +124,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws NotFoundException When record not found.
      */
     public function delete($id = null)
     {

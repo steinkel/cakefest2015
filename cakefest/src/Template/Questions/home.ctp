@@ -1,7 +1,7 @@
 <?php $this->layout = 'bootstrap'; ?>
 <?= $this->Html->tag('h2', __('Questions / Answers table')); ?>
 <?= $this->Html->tag('h2', __('Totals')); ?>
-<?= $this->cell('Totals'); ?>
+<?= $this->cell('Totals', [], ['cache' => ['config' => 'cache_5m']]); ?>
 
 <table class="table table-striped">
     <?=

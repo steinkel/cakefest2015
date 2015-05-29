@@ -15,6 +15,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\Event;
 
 /**
  * Application Controller
@@ -38,5 +39,29 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'loginRedirect' => [
+                        'controller' => 'Questions',
+                        'action' => 'home'
+                    ],
+                    'logoutRedirect' => [
+                        'controller' => 'Questions',
+                        'action' => 'home'
+                    ],
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password'
+                    ],
+                    //contain
+                    //scope
+                ]
+            ]
+        ]);
+    }
+
+    public function beforeFilter(Event $event) {
+        $this->Auth->allow(['index', 'view', 'display']);
     }
 }

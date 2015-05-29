@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * User Entity.
@@ -26,8 +27,12 @@ class User extends Entity
         'questions' => true,
     ];
 
-    protected function _getFullName() 
+    protected function _getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    protected function _setPassword($password) {
+        return (new DefaultPasswordHasher)->hash($password);
     }
 }

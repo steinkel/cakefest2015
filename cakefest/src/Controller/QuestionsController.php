@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Questions Controller
@@ -10,6 +11,12 @@ use App\Controller\AppController;
  */
 class QuestionsController extends AppController
 {
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['home']);
+    }
 
     public function home()
     {
@@ -149,5 +156,5 @@ class QuestionsController extends AppController
         );
         $this->response->disableCache();
         return $this->response;
-    }    
+    }
 }

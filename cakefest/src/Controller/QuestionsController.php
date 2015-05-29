@@ -2,12 +2,15 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\QuestionsTable;
+use App\Model\Table\UsersTable;
 use Cake\Event\Event;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Questions Controller
  *
- * @property \App\Model\Table\QuestionsTable $Questions
+ * @property QuestionsTable $Questions
  */
 class QuestionsController extends AppController
 {
@@ -47,7 +50,7 @@ class QuestionsController extends AppController
      *
      * @param string|null $id Question id.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws NotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -87,7 +90,7 @@ class QuestionsController extends AppController
      *
      * @param string|null $id Question id.
      * @return void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws NotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -115,7 +118,7 @@ class QuestionsController extends AppController
      *
      * @param string|null $id Question id.
      * @return void Redirects to index.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     * @throws NotFoundException When record not found.
      */
     public function delete($id = null)
     {

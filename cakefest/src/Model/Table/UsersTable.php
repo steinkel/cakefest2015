@@ -13,6 +13,10 @@ use Cake\Validation\Validator;
 class UsersTable extends Table
 {
 
+    const ROLE_USER = 0;
+    const ROLE_ADMIN = 1;
+    const ROLE_SUPERUSER = 2;
+
     /**
      * Initialize method
      *
@@ -53,18 +57,18 @@ class UsersTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
             ->allowEmpty('first_name');
-            
+
         $validator
             ->allowEmpty('last_name');
-            
+
         $validator
             ->add('email', 'valid', ['rule' => 'email'])
             ->requirePresence('email', 'create')
             ->notEmpty('email');
-            
+
         $validator
             ->requirePresence('password', 'create')
             ->notEmpty('password')

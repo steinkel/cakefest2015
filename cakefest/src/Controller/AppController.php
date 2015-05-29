@@ -14,6 +14,7 @@
  */
 namespace App\Controller;
 
+use App\Model\Table\UsersTable;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
@@ -40,16 +41,12 @@ class AppController extends Controller
         parent::initialize();
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
+            'authorize' => [
+                'Superuser',
+                'Controller'
+                ],
             'authenticate' => [
                 'Form' => [
-                    'loginRedirect' => [
-                        'controller' => 'Questions',
-                        'action' => 'home'
-                    ],
-                    'logoutRedirect' => [
-                        'controller' => 'Questions',
-                        'action' => 'home'
-                    ],
                     'fields' => [
                         'username' => 'email',
                         'password' => 'password'
@@ -63,5 +60,13 @@ class AppController extends Controller
 
     public function beforeFilter(Event $event) {
         $this->Auth->allow(['index', 'view', 'display']);
+    }
+
+    public function isAuthorized($user)
+    {
+        if ($user['role'] === UsersTable::ROLE_ADMIN &&
+                $this->request->action === 'add') {
+            return true;
+        }
     }
 }

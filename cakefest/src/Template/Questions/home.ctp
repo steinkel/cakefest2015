@@ -1,5 +1,8 @@
 <?php $this->layout = 'bootstrap'; ?>
 <?= $this->Html->tag('h2', __('Questions / Answers table')); ?>
+<?= $this->Html->tag('h2', __('Totals')); ?>
+<?= $this->cell('Totals'); ?>
+
 <table class="table table-striped">
     <?=
     $this->Html->tableHeaders([

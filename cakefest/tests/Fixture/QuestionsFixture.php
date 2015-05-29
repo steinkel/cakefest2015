@@ -41,10 +41,34 @@ class QuestionsFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'title' => 'Lorem ipsum dolor sit amet',
+            'title' => 'question-1',
             'user_id' => 1,
             'election_id' => 1,
             'created' => '2015-05-27 15:50:22',
+            'modified' => '2015-05-27 15:50:22'
+        ],
+        [
+            'id' => 2,
+            'title' => 'question-2',
+            'user_id' => 1,
+            'election_id' => 1,
+            'created' => '2015-05-28 15:50:22',
+            'modified' => '2015-05-27 15:50:22'
+        ],
+        [
+            'id' => 3,
+            'title' => 'question-3',
+            'user_id' => 1,
+            'election_id' => 1,
+            'created' => '2015-05-29 15:50:22',
+            'modified' => '2015-05-27 15:50:22'
+        ],
+        [
+            'id' => 4,
+            'title' => 'question-4',
+            'user_id' => 1,
+            'election_id' => 1,
+            'created' => '2015-05-21 15:50:22',
             'modified' => '2015-05-27 15:50:22'
         ],
     ];

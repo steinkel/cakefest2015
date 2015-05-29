@@ -80,7 +80,7 @@ class QuestionsTable extends Table
     public function findHome($query, $options)
     {
         return $query
-            ->limit(10)
+            ->limit(3)
             ->contain(['Answers.Users'])
             ->order(['Questions.created' => 'desc']);
     }

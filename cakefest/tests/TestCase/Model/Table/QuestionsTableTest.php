@@ -1,9 +1,9 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\QuestionsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Hash;
 
 /**
  * App\Model\Table\QuestionsTable Test Case
@@ -19,8 +19,9 @@ class QuestionsTableTest extends TestCase
     public $fixtures = [
         'app.questions',
         'app.users',
-        'app.elections',
+        'app.parties',
         'app.answers',
+        'app.elections',
         'app.tags',
         'app.questions_tags'
     ];
@@ -50,32 +51,15 @@ class QuestionsTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
+     * Test findHome method
      *
      * @return void
      */
-    public function testInitialize()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+    public function testFindHome() {
+        $result = $this->Questions->find('home')->hydrate(false)->toArray();
+        $expected = [3, 2, 1];
+        $this->assertEquals($expected, Hash::extract($result, '{n}.id'));
+        $this->assertArrayHasKey('answers', $result[2]);
+        $this->assertArrayHasKey('user', $result[2]['answers'][0]);
     }
 }

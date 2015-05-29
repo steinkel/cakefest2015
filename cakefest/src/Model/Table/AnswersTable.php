@@ -74,7 +74,7 @@ class AnswersTable extends Table
 
     public function afterSave(Event $event, Answer $entity, $options)
     {
-        $email = new Email('default');
+        $email = $this->_getEmailInstance();
         $result = $email->from('noreply@factionquestions.org')
             ->to('admin@factionquestions.org')
             ->subject(__('New answer!!'))
@@ -83,7 +83,17 @@ class AnswersTable extends Table
                 'action' => 'view',
                 $entity->id,
          ], true)));
-         Debugger::log($result);
+         $this->_log($result);
+    }
+
+    protected function _getEmailInstance()
+    {
+        return new Email('default');
+    }
+
+    protected function _log($result)
+    {
+        Debugger::log($result);
     }
 
     public function addOrEdit(array $data)

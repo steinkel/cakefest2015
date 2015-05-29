@@ -55,7 +55,7 @@ class QuestionsTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
             ->requirePresence('title', 'create')
             ->notEmpty('title');
@@ -75,5 +75,13 @@ class QuestionsTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->existsIn(['election_id'], 'Elections'));
         return $rules;
+    }
+
+    public function findHome($query, $options)
+    {
+        return $query
+            ->limit(10)
+            ->contain(['Answers.Users'])
+            ->order(['Questions.created' => 'desc']);
     }
 }

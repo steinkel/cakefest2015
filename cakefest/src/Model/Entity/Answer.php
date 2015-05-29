@@ -21,4 +21,12 @@ class Answer extends Entity
         'user' => true,
         'question' => true,
     ];
+
+    protected function _getAnswerDisplay()
+    {
+        if ($this->answer) {
+            return __('YES');
+        }
+        return __('NO');
+    }
 }

@@ -2,13 +2,14 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Answer;
-use Cake\ORM\Query;
+use Cake\Error\Debugger;
+use Cake\Event\Event;
+use Cake\Network\Email\Email;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Validation\Validator;
-use Cake\Network\Email\Email;
 use Cake\Routing\Router;
-use Cake\Error\Debugger;
+use Cake\Utility\Hash;
+use Cake\Validation\Validator;
 
 /**
  * Answers Model
@@ -40,15 +41,15 @@ class AnswersTable extends Table
     /**
      * Default validation rules.
      *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
+     * @param Validator $validator Validator instance.
+     * @return Validator
      */
     public function validationDefault(Validator $validator)
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-            
+
         $validator
             ->add('answer', 'valid', ['rule' => 'boolean'])
             ->requirePresence('answer', 'create')
@@ -61,8 +62,8 @@ class AnswersTable extends Table
      * Returns a rules checker object that will be used for validating
      * application integrity.
      *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
+     * @param RulesChecker $rules The rules object to be modified.
+     * @return RulesChecker
      */
     public function buildRules(RulesChecker $rules)
     {
@@ -83,5 +84,20 @@ class AnswersTable extends Table
                 $entity->id,
          ], true)));
          Debugger::log($result);
+    }
+
+    public function addOrEdit(array $data)
+    {
+        $answer = $this->find()
+            ->where([
+                'question_id' => Hash::get($data, 'question_id'),
+                'user_id' => Hash::get($data, 'user_id')
+            ])
+            ->first();
+        if (!$answer) {
+            $answer = $this->newEntity();
+        }
+        $answer = $this->patchEntity($answer, $data);
+        return $this->save($answer);
     }
 }

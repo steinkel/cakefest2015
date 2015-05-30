@@ -46,7 +46,7 @@ class UsersFixture extends TestFixture
             'id' => 1,
             'first_name' => 'Lorem ipsum dolor sit amet',
             'last_name' => 'Lorem ipsum dolor sit amet',
-            'email' => 'Lorem ipsum dolor sit amet',
+            'email' => 'example@example.com',
             'password' => 'Lorem ipsum dolor sit amet',
             'role' => 1,
             'party_id' => 1,

@@ -27,6 +27,10 @@ class User extends Entity
         'questions' => true,
     ];
 
+    protected $_hidden = [
+        'id', 'created', 'modified', 'password', 'role', 'party_id'
+    ];
+
     protected function _getFullName()
     {
         return $this->first_name . ' ' . $this->last_name;

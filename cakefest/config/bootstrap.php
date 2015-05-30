@@ -203,3 +203,5 @@ Type::build('datetime')->useLocaleParser();
 
 // Event configuration
 \Cake\Event\EventManager::instance()->on(new \App\Event\AuthListener());
+
+Plugin::load('Crud', []);

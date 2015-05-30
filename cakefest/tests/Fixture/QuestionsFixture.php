@@ -31,6 +31,7 @@ class QuestionsFixture extends TestFixture
             'collation' => 'latin1_swedish_ci'
         ],
     ];
+
     // @codingStandardsIgnoreEnd
 
     /**

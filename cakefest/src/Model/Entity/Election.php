@@ -19,4 +19,8 @@ class Election extends Entity
         'year' => true,
         'questions' => true,
     ];
+
+    protected $_hidden = [
+        'id', 'created', 'modified'
+    ];
 }

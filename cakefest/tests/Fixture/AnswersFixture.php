@@ -43,5 +43,17 @@ class AnswersFixture extends TestFixture
             'question_id' => 1,
             'answer' => 1
         ],
+        [
+            'id' => 2,
+            'user_id' => 1,
+            'question_id' => 2,
+            'answer' => 1
+        ],
+        [
+            'id' => 3,
+            'user_id' => 1,
+            'question_id' => 3,
+            'answer' => 1
+        ],
     ];
 }

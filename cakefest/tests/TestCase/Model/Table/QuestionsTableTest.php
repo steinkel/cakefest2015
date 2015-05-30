@@ -47,6 +47,7 @@ class QuestionsTableTest extends TestCase
     {
         unset($this->Questions);
 
+        TableRegistry::clear();
         parent::tearDown();
     }
 
@@ -56,10 +57,11 @@ class QuestionsTableTest extends TestCase
      * @return void
      */
     public function testFindHome() {
-        $result = $this->Questions->find('home')->hydrate(false)->toArray();
-        $expected = [3, 2, 1];
-        $this->assertEquals($expected, Hash::extract($result, '{n}.id'));
-        $this->assertArrayHasKey('answers', $result[2]);
-        $this->assertArrayHasKey('user', $result[2]['answers'][0]);
+        $results = $this->Questions->find('home')->all();
+        $expectedIds = [3, 2, 1];
+        $this->assertEquals($expectedIds, $results->extract('id')->toArray());
+        $first = $results->first();
+        $this->assertNotEmpty($first->answers);
+        $this->assertNotEmpty($first->answers[0]->user);
     }
 }

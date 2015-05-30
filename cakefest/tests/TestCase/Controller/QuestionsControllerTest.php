@@ -1,8 +1,10 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
+use Cake\ORM\TableRegistry;
 use App\Controller\QuestionsController;
 use Cake\TestSuite\IntegrationTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * App\Controller\QuestionsController Test Case
@@ -24,6 +26,12 @@ class QuestionsControllerTest extends IntegrationTestCase
         'app.questions_tags'
     ];
 
+    public function tearDown()
+    {
+        TableRegistry::clear();
+        parent::tearDown();
+    }
+
     /**
      * Test index method
      *
@@ -31,17 +39,27 @@ class QuestionsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $answersTable = $this->getMockForModel('Answers', ['find']);
+        $queryMock = $this
+            ->getMockBuilder('Cake\ORM\Query')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $answersTable
+            ->expects($this->once())
+            ->method('find')
+            ->will($this->returnValue($queryMock));
+
+        $queryMock->expects($this->once())
+            ->method('all')
+            ->will($this->returnValue(collection([1, 2, 3])));
+
+        $this->get('/questions');
+        $this->assertResponseOk();
+        $response = new Crawler($this->_response->body());
+        $rows = $response->filter('.questions > table > tbody > tr');
+        $this->assertCount(4, $rows);
     }
 
     /**
@@ -49,28 +67,17 @@ class QuestionsControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAdd()
+    public function testAddPostSuccess()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->session([
+            'Auth' => ['User' => ['id' => 1, 'role' => 2]]
+        ]);
+        $this->post('/questions/add', [
+            'title' => 'This is a question',
+            'user_id' => 1,
+            'question_id' => 1,
+            'election_id' => 1
+        ]);
+        $this->assertRedirect(['controller' => 'Questions', 'action' => 'index']);
     }
 }

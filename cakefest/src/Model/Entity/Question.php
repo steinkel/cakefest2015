@@ -23,4 +23,22 @@ class Question extends Entity
         'answers' => true,
         'tags' => true,
     ];
+
+    protected $_hidden = [
+        'id', 'user_id', 'election_id', 'created', 'modified'
+    ];
+
+    protected $_virtual = [
+      //  '_link'
+    ];
+
+    protected function _getLink()
+    {
+        return \Cake\Routing\Router::url([
+            'controller' => 'Questions',
+            'action' => 'view',
+            'id' => $this->id,
+            '_full' => true
+        ]);
+    }
 }

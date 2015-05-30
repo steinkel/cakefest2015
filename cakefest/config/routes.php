@@ -41,35 +41,55 @@ use Cake\Routing\Router;
  */
 Router::defaultRouteClass('Route');
 
-Router::scope('/', function ($routes) {
-    /**
-     * Here, we are connecting '/' (base path) to a controller called 'Pages',
-     * its action called 'display', and we pass a param to select the view file
-     * to use (in this case, src/Template/Pages/home.ctp)...
-     */
+$builder = function ($regex, $controller) {
+    return function ($routes) use ($regex, $controller) {
+        $extra = ['pass' => ['id'], 'id' => $regex];
+        $routes->extensions(['json']);
+        $routes->connect('/', ['action' => 'index'], ['_name' => "$controller::index"]);
+        $routes->connect('/add', ['action' => 'add'], ['_name' => "$controller::add"]);
+
+        $name = "$controller::";
+        $routes->connect(
+            '/:id/view',
+            ['action' => 'view'],
+            $extra
+        );
+        $routes->connect('/:id/edit', ['action' => 'edit'], $extra);
+        $routes->connect('/:id/delete', ['action' => 'delete'], $extra);
+    };
+};
+
+$scopes = function ($routes) use ($builder) {
+    $routes->scope(
+        '/questions',
+        ['controller' => 'Questions'], $builder(Router::ID, 'Questions')
+    );
+    $routes->scope(
+        '/answers',
+        ['controller' => 'Answers'], $builder(Router::ID, 'Answers')
+    );
+    $routes->scope(
+        '/users',
+        ['controller' => 'Users'], $builder(Router::ID, 'Users')
+    );
+};
+
+$languages = ['en', 'es', 'pt'];
+foreach ($languages as $lang) {
+    Router::scope("/$lang", ['lang' => $lang], $scopes);
+}
+
+Router::addUrlFilter(function ($params, $request) {
+    if ($request->param('lang')) {
+        $params['lang'] = $request->param('lang');
+    }
+    return $params;
+});
+
+Router::scope('/', function ($routes) use ($scopes) {
+    $scopes($routes);
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-
-    /**
-     * ...and connect the rest of 'Pages' controller's URLs.
-     */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-
-    /**
-     * Connect catchall routes for all controllers.
-     *
-     * Using the argument `InflectedRoute`, the `fallbacks` method is a shortcut for
-     *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'InflectedRoute']);`
-     *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'InflectedRoute']);`
-     *
-     * Any route class can be used with this method, such as:
-     * - DashedRoute
-     * - InflectedRoute
-     * - Route
-     * - Or your own route class
-     *
-     * You can remove these routes once you've connected the
-     * routes you want in your application.
-     */
     $routes->fallbacks('InflectedRoute');
 });
 

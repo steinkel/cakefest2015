@@ -3,7 +3,7 @@
     <ul class="side-nav">
         <li><?= $this->Html->link(__('New Question'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New User'), ['_name' => 'Users::add']) ?></li>
         <li><?= $this->Html->link(__('List Elections'), ['controller' => 'Elections', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Election'), ['controller' => 'Elections', 'action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Answers'), ['controller' => 'Answers', 'action' => 'index']) ?></li>

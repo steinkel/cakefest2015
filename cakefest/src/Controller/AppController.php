@@ -29,6 +29,8 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
 
+    use \Crud\Controller\ControllerTrait;
+
     /**
      * Initialization hook method.
      *
@@ -56,10 +58,21 @@ class AppController extends Controller
                 ]
             ]
         ]);
+        $this->loadComponent('RequestHandler');
+        $this->loadComponent('Crud.Crud', [
+            'actions' => [
+                'Crud.Index',
+                'Crud.Add',
+                'Crud.Edit',
+                'Crud.View',
+                'Crud.Delete'
+            ],
+            'listeners' => ['Crud.Api', 'Crud.ApiPagination']
+        ]);
     }
 
     public function beforeFilter(Event $event) {
-        $this->Auth->allow(['index', 'view', 'display']);
+        $this->Auth->allow(['index', 'view', 'display', 'add']);
     }
 
     public function isAuthorized($user)
